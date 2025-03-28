@@ -9,4 +9,4 @@ CREATE TABLE todos (
 
 -- if not necessary, delete below
 INSERT INTO todos (text, registration_date, update_date) VALUES
-("test data", current_timestamp, current_timestamp);
+('test data', current_timestamp, current_timestamp);
