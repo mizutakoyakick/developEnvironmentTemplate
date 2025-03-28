@@ -1,0 +1,44 @@
+version: "3"
+services:
+  frontend:
+    container_name: frontend-test
+    build: ./docker-typescript-project
+    volumes:
+      - ./docker-typescript-project:/workdir
+    expose:
+      - "4062"
+    ports:
+      - "4062:4062"
+    tty: true
+
+  backend:
+    container_name: backend-test
+    build: ./docker_python_project
+    volumes:
+      - ./docker_python_project:/workdir
+    expose:
+      - "6889"
+    ports:
+      - "6889:6889"
+    tty: true
+
+  db:
+    container_name: db-test
+    build: ./docker-postgres
+    restart: always
+    shm_size: 128mb
+    volumes:
+      - ./docker-postgres/init:/docker-entrypoint-initdb.d
+      - ./docker-postgres/temp:/temp
+      - pgdata:/var/lib/postgresql/data
+    expose:
+      - "4321"
+    ports:
+      - "4321:4321"
+    environment:
+      POSTGRES_PASSWORD: password1234
+      TZ: "Asia/Tokyo"
+    command: -p 4321
+
+volumes:
+  pgdata:
