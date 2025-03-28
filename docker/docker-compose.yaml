@@ -13,7 +13,9 @@ services:
 
   backend:
     container_name: backend-container
-    build: ./backend-python
+    build:
+      context: ../
+      dockerfile: ./docker/backend-python
     volumes:
       - ../backend:/workdir
     expose:
