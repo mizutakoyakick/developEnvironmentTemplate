@@ -1,10 +1,10 @@
 version: "3"
 services:
   frontend:
-    container_name: frontend-test
-    build: ./docker-typescript-project
+    container_name: frontend-container
+    build: ./frontend-typescript
     volumes:
-      - ./docker-typescript-project:/workdir
+      - ../frontend:/workdir
     expose:
       - "4062"
     ports:
@@ -12,24 +12,26 @@ services:
     tty: true
 
   backend:
-    container_name: backend-test
-    build: ./docker_python_project
+    container_name: backend-container
+    build:
+      context: ../
+      dockerfile: ./docker/backend-python
     volumes:
-      - ./docker_python_project:/workdir
+      - ../backend:/workdir
     expose:
       - "6889"
     ports:
       - "6889:6889"
     tty: true
 
-  db:
-    container_name: db-test
-    build: ./docker-postgres
+  database:
+    container_name: database-container
+    build: ./database-postgres
     restart: always
     shm_size: 128mb
     volumes:
-      - ./docker-postgres/init:/docker-entrypoint-initdb.d
-      - ./docker-postgres/temp:/temp
+      - ../database/init:/docker-entrypoint-initdb.d
+      - ../database/temp:/temp
       - pgdata:/var/lib/postgresql/data
     expose:
       - "4321"
